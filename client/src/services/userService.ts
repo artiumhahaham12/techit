@@ -1,13 +1,15 @@
 import axios from "axios";
 import User from "../interfaces/User"
 
-const api: string = `${process.env.REACT_APP_API}/users`
+const api: string = `${process.env.REACT_APP_API}`
 
 export function checkUser(user: User){
-    return axios.get(`${api}?email=${user.email}&password=${user.password}`);
+  console.log(api, user);
+    return axios.post(`${api}/login`,user);
 }
-export function addUser(user:User){
-    return axios.post(api, user);
+export function addUser(user: User) {
+  
+    return axios.post(`${api}/register`, user);
 }
 export function getUserById() {
     const id: string = JSON.parse(localStorage.getItem("user") as string) 
@@ -27,4 +29,11 @@ export async function checkAdmin() {
   } catch (error) {
     console.log(error);
   }
+}
+export function getProfile() {
+  console.log(JSON.parse(localStorage.getItem("token") as string) );
+  
+  return axios.get(`${api}/users/profile`, { headers: { Authorization: JSON.parse(localStorage.getItem("token") as string)  } })
+
+  
 }

@@ -3,7 +3,7 @@ import { FunctionComponent } from "react";
 import * as yup from "yup"
 import { checkUser } from "../services/userService";
 import { Link, useNavigate } from "react-router-dom";
-import { checkIfAdmin } from "../services/productsService";
+
 interface LoginProps {
   changeIsAdmin:(isAdmin:boolean)=>void;
 }
@@ -11,7 +11,7 @@ interface LoginProps {
 const Login: FunctionComponent<LoginProps> = ({changeIsAdmin}) => {
     let navigator = useNavigate()
     const formik = useFormik({
-    initialValues: { email: "", password: "" ,isAdmin:false},
+    initialValues: { email: "", password: "" },
     validationSchema: yup.object({
       email: yup.string().required().email(),
       password: yup.string().required().min(8),
@@ -21,19 +21,11 @@ const Login: FunctionComponent<LoginProps> = ({changeIsAdmin}) => {
       
       checkUser(values).then((res) => {
         console.log(res.data);
-        if (res.data.length) {
-          
-          navigator("/home");
-
-          localStorage.setItem("user", JSON.stringify(res.data[0].id))
-          checkIfAdmin().then((res) => { changeIsAdmin(res); localStorage.setItem("isAdmin",res)});
-          
-          
-          
-        } else {
-          alert("user not found")
-          resetForm()
-        }
+        localStorage.setItem("token", JSON.stringify(res.data))
+        alert("ok")
+        navigator("/home")
+      }).catch((error) => {
+        console.log(error);alert("error")
       })
     },
   });

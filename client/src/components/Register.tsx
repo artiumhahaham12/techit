@@ -23,13 +23,10 @@ const Register: FunctionComponent<RegisterProps> = ({changeIsAdmin}) => {
       onSubmit: (values, { resetForm }) => {
           console.log(values);
         addUser({ ...values, isAdmin: false }).then((res: any) => {
-          navigator("/home"); localStorage.setItem("user", JSON.stringify(res.data.id));
-          createCart(res.data.id).then((res) => {
-              console.log("cart created succefully")
-              
-            }).catch((error)=>{console.log(error);
+          navigator("/home");
+          localStorage.setItem("token", JSON.stringify(res.data));
+          }) .catch((error)=>{console.log(error);alert("error")
             })
-          })
         
     },
   });

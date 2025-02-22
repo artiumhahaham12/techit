@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import { getUserById } from "../services/userService";
+import { getProfile, getUserById } from "../services/userService";
 import User from "../interfaces/User";
 
 interface ProfileProps {
@@ -14,13 +14,9 @@ const Profile: FunctionComponent<ProfileProps> = () => {
       password: "",
       isAdmin: false,
     });
-    useEffect(() => {
-      getUserById()
-        .then((res) => {})
-        
-    }, []);
+    
   useEffect(() => {
-    getUserById()
+    getProfile()
       .then((res) => {
         setUser(res.data);
       })
